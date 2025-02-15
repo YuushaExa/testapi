@@ -1,8 +1,6 @@
 const express = require('express');
-const fetch = require('node-fetch');
-
-const app = express();
 const axios = require('axios');
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 const BASE_URL = 'https://api.vndb.org/kana/vn';
@@ -33,20 +31,15 @@ async function fetchVnDataOnce() {
     }
 }
 
-// Fetch and display VN titles, descriptions, and image URLs
-fetchVnDataOnce()
-    .then((data) => {
-        data.forEach((vn, index) => {
-            console.log(`Entry ${index + 1}:`);
-            console.log(`Title: ${vn.title}`);
-            console.log(`Description: ${vn.description || 'No description available'}`);
-            console.log(`Image URL: ${vn.image?.url || 'No image available'}`);
-            console.log('---');
-        });
-    })
-    .catch((error) => {
-        console.error('Error:', error.message);
-    });
+// Route to fetch and return VN data
+app.get('/vn', async (req, res) => {
+    try {
+        const data = await fetchVnDataOnce();
+        res.json(data); // Send the data as a JSON response
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
