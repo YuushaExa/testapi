@@ -1,4 +1,5 @@
 const axios = require('axios');
+const PORT = process.env.PORT || 3000;
 
 const BASE_URL = 'https://api.vndb.org/kana/vn';
 const RESULTS_PER_PAGE = 100; // Max allowed by the API
@@ -42,3 +43,7 @@ fetchVnDataOnce()
     .catch((error) => {
         console.error('Error:', error.message);
     });
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
