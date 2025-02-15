@@ -12,7 +12,7 @@ async function fetchVnDataOnce() {
             BASE_URL,
             {
                 filters: [],
-                fields: 'title, description, image.url',
+                fields: 'title, description, image.url, screenshots.url, developers.name, aliases, tags.name', // Added new fields
                 results: RESULTS_PER_PAGE,
                 page: 1, // Fetch only the first page
             },
