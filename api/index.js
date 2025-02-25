@@ -12,7 +12,7 @@ async function fetchVnDataOnce() {
             BASE_URL,
             {
                 filters: [],
-                fields: 'title, description, image.url, screenshots.url, developers.name, aliases, tags.name', // Added new fields
+                fields: 'title, description, image.url, screenshots.url, developers.name, aliases', // Added new fields
                 results: RESULTS_PER_PAGE,
                 page: 1, // Fetch only the first page
             },
@@ -20,7 +20,7 @@ async function fetchVnDataOnce() {
                 headers: { 'Content-Type': 'application/json' },
             }
         );
-
+//  tags.name
         const result = response.data;
 
         // Return the fetched data
