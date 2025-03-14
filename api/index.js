@@ -14,7 +14,7 @@ async function fetchVnDataOnce() {
                 filters: [],
                 fields: 'title, description, image.url, developers.name, aliases', // Added new fields
                 results: RESULTS_PER_PAGE,
-                page: 1, // Fetch only the first page
+                page: 100, // Fetch only the first page
             },
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -33,12 +33,17 @@ async function fetchVnDataOnce() {
 }
 
 // Route to fetch and return VN data
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 app.get('/vn', async (req, res) => {
     try {
         const data = await fetchVnDataOnce();
-        res.json(data); // Send the data as a JSON response
+        res.json(data);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch data' });
+    } finally {
+        // Add a delay of 1.5 seconds between requests
+        await delay(1500);
     }
 });
 
