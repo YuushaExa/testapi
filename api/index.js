@@ -14,7 +14,7 @@ async function fetchVnDataOnce() {
                 filters: [],
                 fields: 'title, description, image.url, developers.name, aliases', // Added new fields
                 results: RESULTS_PER_PAGE,
-                page: 2
+                page: 200
             },
             {
                 headers: { 'Content-Type': 'application/json' },
