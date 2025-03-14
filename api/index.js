@@ -5,48 +5,57 @@ const PORT = process.env.PORT || 3000;
 
 const BASE_URL = 'https://api.vndb.org/kana/vn';
 const RESULTS_PER_PAGE = 100; // Max allowed by the API
+const TOTAL_PAGES = 10; // Adjust this based on how many pages you want to fetch
+const DELAY_BETWEEN_REQUESTS = 1500; // 1.5 seconds delay between requests
 
-async function fetchVnDataOnce() {
+// Function to fetch data for a single page
+async function fetchVnDataPage(page) {
     try {
         const response = await axios.post(
             BASE_URL,
             {
                 filters: [],
-                fields: 'title, description, image.url, developers.name, aliases', // Added new fields
+                fields: 'title, description, image.url, developers.name, aliases',
                 results: RESULTS_PER_PAGE,
-                page: 200
+                page: page, // Fetch the specified page
             },
             {
                 headers: { 'Content-Type': 'application/json' },
             }
         );
-//  tags.name
-// screenshots.url
-        const result = response.data;
-
-        // Return the fetched data
-        return result.results;
+        return response.data.results;
     } catch (error) {
-        console.error('Error fetching data:', error.message);
-        return [];
+        console.error(`Error fetching data for page ${page}:`, error.message);
+        return []; // Return an empty array if there's an error
     }
 }
+const TOTAL_PAGES = 200; // Fetch 50 pages
+// Function to fetch all pages with a delay between requests
+async function fetchAllPages() {
+    let allResults = [];
+    for (let page = 1; page <= TOTAL_PAGES; page++) {
+        console.log(`Fetching page ${page}...`);
+        const pageData = await fetchVnDataPage(page);
+        allResults = allResults.concat(pageData);
 
-// Route to fetch and return VN data
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        // Add a delay between requests to avoid hitting the rate limit
+        if (page < TOTAL_PAGES) {
+            await new Promise((resolve) => setTimeout(resolve, DELAY_BETWEEN_REQUESTS));
+        }
+    }
+    return allResults;
+}
 
+// Route to fetch and return all VN data
 app.get('/vn', async (req, res) => {
     try {
-        const data = await fetchVnDataOnce();
-        res.json(data);
+        const data = await fetchAllPages();
+        res.json(data); // Send the data as a JSON response
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch data' });
-    } finally {
-        // Add a delay of 1.5 seconds between requests
-        await delay(1500);
     }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
