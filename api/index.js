@@ -59,8 +59,8 @@ async function fetchPageRange(startPage, endPage) {
 // Route to fetch and return VN data for a specific page range
 app.get('/vn', async (req, res) => {
     try {
-        const startPage = parseInt(req.query.startPage) || 2; // Default to page 1 if not provided
-        const endPage = parseInt(req.query.endPage) || 4; // Default to page 10 if not provided
+        const startPage = parseInt(req.query.startPage) || 1; // Default to page 1 if not provided
+        const endPage = parseInt(req.query.endPage) || 150; // Default to page 10 if not provided
 
         if (isNaN(startPage) || isNaN(endPage) || startPage > endPage) {
             return res.status(400).json({ error: 'Invalid startPage or endPage' });
