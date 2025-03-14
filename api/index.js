@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 const BASE_URL = 'https://api.vndb.org/kana/vn';
 const RESULTS_PER_PAGE = 100; // Max allowed by the API
-const TOTAL_PAGES = 10; // Adjust this based on how many pages you want to fetch
+const TOTAL_PAGES = 200; // Adjust this based on how many pages you want to fetch
 const DELAY_BETWEEN_REQUESTS = 1500; // 1.5 seconds delay between requests
 
 // Function to fetch data for a single page
@@ -29,7 +29,6 @@ async function fetchVnDataPage(page) {
         return []; // Return an empty array if there's an error
     }
 }
-const TOTAL_PAGES = 200; // Fetch 50 pages
 // Function to fetch all pages with a delay between requests
 async function fetchAllPages() {
     let allResults = [];
