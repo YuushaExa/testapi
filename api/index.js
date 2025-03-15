@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 const BASE_URL = 'https://api.vndb.org/kana/vn';
 const RESULTS_PER_PAGE = 100; // Max allowed by the API
-const DELAY_BETWEEN_REQUESTS = 100; // 1.5 seconds delay between requests
+const DELAY_BETWEEN_REQUESTS = 0; // 1.5 seconds delay between requests
 
 // Function to fetch data for a single page
 async function fetchVnDataPage(page) {
@@ -62,8 +62,8 @@ async function fetchPageRange(startPage, endPage) {
 // Route to fetch and return VN data for a specific page range
 app.get('/vn', async (req, res) => {
     try {
-        const startPage = parseInt(req.query.startPage) || 445; // Default to page 1 if not provided
-        const endPage = parseInt(req.query.endPage) || 500; // Default to page 10 if not provided
+        const startPage = parseInt(req.query.startPage) || 488; // Default to page 1 if not provided
+        const endPage = parseInt(req.query.endPage) || 538; // Default to page 10 if not provided
 
         if (isNaN(startPage) || isNaN(endPage) || startPage > endPage) {
             return res.status(400).json({ error: 'Invalid startPage or endPage' });
