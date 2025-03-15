@@ -31,7 +31,7 @@ jobs:
 
     - name: Validate JSON
       run: |
-        jq empty merged.json
+        jq empty vn/merged.json
 
     - name: Commit merged file
       run: |
