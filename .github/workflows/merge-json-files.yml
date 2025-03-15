@@ -1,7 +1,7 @@
 name: Merge JSON Files
 
 on:
-  push:
+  push: 
     branches:
       - main  # Trigger the workflow on push to the main branch
   workflow_dispatch:  # Allow manual triggering
