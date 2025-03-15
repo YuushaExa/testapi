@@ -27,7 +27,7 @@ jobs:
     - name: Merge JSON files
       run: |
         # Combine all JSON files into one array
-        jq -s 'add' result/vn/*.json > merged.json
+        jq -s 'add' result/vn/*.json > vn/merged.json
 
     - name: Validate JSON
       run: |
