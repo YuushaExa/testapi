@@ -29,6 +29,10 @@ jobs:
         # Combine all JSON files into one array
         jq -s 'add' result/vn/*.json > merged.json
 
+    - name: Validate JSON
+      run: |
+        jq empty merged.json
+
     - name: Commit merged file
       run: |
         git config --global user.name "github-actions[bot]"
